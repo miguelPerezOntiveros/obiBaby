@@ -1,0 +1,16 @@
+
+RASPBERRY
+	rm pipe 
+	mkfifo pipe
+	cat pipe | nc 10.49.130.37 5001 &
+	raspivid -o pipe -t 10000
+NEGRA
+	./relay
+		rm pipe
+		mkfifo pipe
+		nc -l -p 5001 < pipe | nc -l -p 5002 > pipe
+MAC
+	rm pipe 
+	mkfifo pipe
+	nc 132.254.39.213 5002 > pipe mplayer &
+	mplayer -fps 31 -cache 1024 pipe
