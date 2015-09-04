@@ -3,7 +3,7 @@ RASPBERRY
 	rm pipe 
 	mkfifo pipe
 	cat pipe | nc 10.49.130.37 5001 &
-	raspivid -o pipe -t 10000
+	raspivid -o pipe -t 15000
 NEGRA
 	./relay
 		rm pipe
