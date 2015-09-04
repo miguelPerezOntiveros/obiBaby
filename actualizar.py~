@@ -20,17 +20,16 @@ cur = db.cursor()
 
 while True:
     try:
-	fecha = time.strftime('%Y-%m-%d %H:%M:%S')
 	print "Leyendo Temperatura y humedad"
         [temp,humidity] = grovepi.dht(sensorth,0)
 	print "temp =", temp, " humidity =", humidity
-	cur.execute("INSERT INTO log_user_temperature (temperature, humidity, created_at) VALUES ('%s', '%s', %s)", (temp, humidity, fecha))
+	cur.execute("INSERT INTO log_user_temperature (temperature, humidity) VALUES ('%s', '%s')", (temp, humidity))
 	db.commit()
 	print "Temperatura y Humedad Actualizado en la BD"
 	print "Leyendo sensor de Gas"
 	sensor_value = grovepi.analogRead(gas_sensor)
 	print "sensor_value =", sensor_value
-	cur.execute("INSERT INTO log_user_gas (co, created_at) VALUES ('%s', %s)", (sensor_value, fecha))
+	cur.execute("INSERT INTO log_user_gas (co) VALUES ('%s')", (sensor_value))
 	db.commit()
 	print "Sensor de Gas Actualizado en la BD"
 	print "Leyendo sensor de Aire"
@@ -45,11 +44,12 @@ while True:
             air = 1
 
         print "sensor_valueAir =", sensor_valueAir, " Aire =", air
-	cur.execute("INSERT INTO log_user_air (value, pollution, created_at) VALUES ('%s', '%s', %s)", (sensor_valueAir, air, fecha))
+	cur.execute("INSERT INTO log_user_air (value, pollution) VALUES ('%s', '%s')", (sensor_valueAir, air))
 	db.commit()
 	print "Sensor de Aire Actualizado en la BD"
 	print "Leyendo sensor de Movimiento"
-	if grovepi.digitalRead(pir_sensor):		
+	if grovepi.digitalRead(pir_sensor):
+		fecha = time.strftime('%Y-%m-%d %H:%M:%S')
 	    	cur.execute("INSERT INTO log_user_motion (time, created_at) VALUES (%s, %s)", (fecha, fecha))
 		db.commit()
 		print "Sensor de Movimiento Actualizado en la BD"
