@@ -88,3 +88,7 @@ while True:
 
     except IOError:
         print "Error"
+
+    #El parche, el parche, el parche
+    #Esto es por lo mientras...
+    break
