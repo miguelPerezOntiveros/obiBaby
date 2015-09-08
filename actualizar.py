@@ -59,9 +59,9 @@ while True:
 
 
 	print "--------------------------------------------------"
-
-	#system call
-	os.system("echo hello")
+	
+	print "System call:"
+	os.system("ifconfig eth0 | grep inet")
 
 	time.sleep( 2 )
 
