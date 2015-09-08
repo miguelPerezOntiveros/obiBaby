@@ -4,6 +4,20 @@ import MySQLdb
 import time
 import os
 
+#Subprocess, es para correr comandos
+import subprocess
+#Es una función obtenida de esta liga 
+#http://stackoverflow.com/questions/4760215/running-shell-command-from-python-and-capturing-the-output
+#Obtiene lo que devuelve el comando.
+def runProcess(exe):    
+    p = subprocess.Popen(exe, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    while(True):
+      retcode = p.poll() 
+      line = p.stdout.readline()
+      yield line
+      if(retcode is not None):
+        break
+
 db = MySQLdb.connect(host="10.49.130.37",
                      user="cedittec",
                       passwd="server",
@@ -60,8 +74,15 @@ while True:
 
 	print "--------------------------------------------------"
 	
-	print "System call:"
-	os.system("ifconfig eth0 | grep inet")
+
+	####################################################################################################
+	#Parte en la que se realiza la configuración de la Raspberry sí solo sí está conectada por Ethernet.
+	
+	#Se revisa si está conectado vía Ethernet...
+	for line in runProcess('ifconfig eth0 | grep inet'.split()):
+	#Acá se realizaría la configuración...
+		print "Estoy conectado via Ethernet, y soy bien chido. Aca me configuro, ¡Ese!"
+		break
 
 	time.sleep( 2 )
 
