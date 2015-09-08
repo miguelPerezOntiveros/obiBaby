@@ -82,6 +82,9 @@ while True:
 	for line in runProcess('ifconfig eth0 | grep inet'.split()):
 	#Acá se realizaría la configuración...
 		print "Estoy conectado via Ethernet, y soy bien chido. Aca me configuro, ¡Ese!"
+		#hacer query, nadmás asignar varibales por ahora
+		os.system("sudo wifi add 'tiempo de unix' VARIABLEDEQUERY");
+		os.system("sudo wifi connect 'tiempo de unix'");
 		break
 
 	time.sleep( 2 )
@@ -89,6 +92,3 @@ while True:
     except IOError:
         print "Error"
 
-    #El parche, el parche, el parche
-    #Esto es por lo mientras...
-    break
