@@ -2,6 +2,7 @@
 import grovepi
 import MySQLdb
 import time
+import os
 
 db = MySQLdb.connect(host="10.49.130.37",
                      user="cedittec",
@@ -58,8 +59,11 @@ while True:
 
 
 	print "--------------------------------------------------"
-	time.sleep( 2 )
 
+	#system call
+	os.system("echo hello")
+
+	time.sleep( 2 )
 
     except IOError:
         print "Error"
