@@ -85,6 +85,18 @@ Después cargamos el script
 
 python actualizar.py
 
+** Para conectarnos a Wifi usamos los siguientes comandos
+
+sudo wifi 
+
+Vemos los dispositivos disponibles y agregamos el deseado
+
+sudo wifi add [SCHEME] TUSSID
+
+sudo wifi connect [SCHEME]
+
+SCHEME puede ser cualquier nombre es solo la manera en como queramos llamar a la red que nos queramos conectar
+
 
 
 

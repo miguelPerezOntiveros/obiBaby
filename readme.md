@@ -1,40 +1,103 @@
-Guía Raspberry Pi
-Descargar y montar raspbian en la memoria SD
+
+
+Guía RaspberryPi
+
+1.- Descargar Raspbian
 https://www.raspberrypi.org/downloads/raspbian/
-https://www.raspberrypi.org/documentation/installation/installing-images/mac.md
 
-Comando raspi-config
-Asignar contraseña a la raspberry (‘obitec15.0’)
-Habilitar la cámara
+2.- Montar Raspbian a la memoria SD
 
-Comando sudo apt-get update
+Llamar el siguiente comando desde el command line para preparar a la memoria
 
-Instalar MySql
+diskutil unmountDisk /dev/disk4 (nota el numero que se ponga es de acuerdo al SD que se use)
+
+Montamos el Raspbian a la memoria con el siguiente comando
+
+sudo dd bs=1m if=2015-05-05-raspbian-wheezy.img of=/dev/rdisk4 (Igual tener cuidado con el numero que se vaya a usar, que sea deacuerdo a la memoria “rdisk4” o “rdisk5”)
+
+3.- Habilitar uso completo de memoria SD
+
+Una vez hecho esto solo se podrá hacer uso de una partición hecha a partir de los comandos que usamos para montar Raspbian,  para poder utilizar el resto de la memoria se debe activar una función desde la raspberry. 
+
+Ingresando al command line desde la raspberry llamar el siguiente comando
+
+sudo raspi-config 
+
+Y seleccionamos la opción de EXPAND FILESYSTEM y consecuente le damos en la opción de ENABLE.
+
+También podemos activar otras funciones desde el menu que nos aparece con el 
+
+sudo raspi-config 
+
+
+Podemos asignar contraseña a la raspberry en la opción de CHANGE USER PASSWORD (‘obitec15.0’) 
+
+Igualmente podemos habilitar la cámara, con ENABLE CAMARA
+
+Cambiar la hora en ITERNATIONALISATION OPTIONS, luego seleccionamos CHANGE TIMEZONE, AMERICA y después Mexico_city
+
+
+4.- Hacer uso de GrovePi
+
+Comando 
+
+sudo apt-get update
+
+Ahora descargaremos el Git de Dexter Industries 
+
+git clone https://github.com/DexterInd/GrovePi
+
+y ahora pondremos los siguientes comandos para instalar GrovePi
+
+
+cd GrovePi/Script
+
+sudo chmod +x install.sh
+
+sudo ./install.sh
+
+
+5.- Instalar MySql
+
 sudo apt-get install python-mysqldb
 
-Clonar carpeta git para tener nuestro código
+
+6.- Descargar la carpeta de nuestro Git
+
+
+7.-Clonar carpeta git para tener nuestro código
+
 	git clone https://github.com/miguelPerezOntiveros/obiBaby.git
 
-http://www.dexterindustries.com/GrovePi/get-started-with-the-grovepi/setting-software/
+Dentro del script de actualizar.py estan los usos de sensores y enviarlos al servidor.
 
-Instalar el GrovePi
-	Reiniciar la Raspberry sin el Grove Pi
-	Descargar archivos de GrovePi
-		git clone https://github.com/DexterInd/GrovePi
-	Ir al folder Script de la carpeta de GrovePi
-		cd GrovePi/Script
-	sudo chmod +x install.sh
-	sudo ./install.sh
-	
-	La raspberry se reiniciará y se deberá colocar el GrovePi
-	
-Checar si se instaló correctamente (uno al final con las nuevas versiones de raspberry)
-	sudo i2cdetect -y 1 
-	Si se ve un “04” la instalación fue exitosa
+8.- Para comprobar que funcione mandar el siguiente comando 
 
-Probar el GrovePi con los Sripts en Python de ejemplo
-	cd GrovePi/Software/Python
+i2cdetect -y 1 
 
-							
+Si se ve un “04” la instalación fue exitosa
+
+9.- Accedemos a la carpeta desde el command line
+
+cd ObiBaby/
+
+Después cargamos el script
+
+python actualizar.py
+
+** Para conectarnos a Wifi usamos los siguientes comandos
+
+sudo wifi 
+
+Vemos los dispositivos disponibles y agregamos el deseado
+
+sudo wifi add [SCHEME] TUSSID
+
+password: **Ingresamos el password de la SSID
+
+sudo wifi connect [SCHEME]
+
+SCHEME puede ser cualquier nombre es solo la manera en como queramos llamar a la red que nos queramos conectar
+
 
 
