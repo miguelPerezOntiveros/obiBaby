@@ -83,10 +83,12 @@ while True:
 	#Acá se realizaría la configuración...
 		print "Estoy conectado via Ethernet, y soy bien chido. Aca me configuro, ¡Ese!"
 		#hacer query, nadmás asignar varibales por ahora
-		os.system("sudo wifi add 'tiempo de unix' VARIABLEDEQUERY");
-		os.system("sudo wifi connect 'tiempo de unix'");
+		os.system("sudo wifi add "+ (var scheme = time.time())+" VARIABLEDEQUERY");
+		os.system("sudo wifi connect "+ scheme );
 		break
 
+	#varibale que guarde el tiempo
+	#if(varible + 2 < time.time()) corre ciclo else sleep(0.1);
 	time.sleep( 2 )
 
     except IOError:
