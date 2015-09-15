@@ -39,7 +39,7 @@ while True:
 
 
 	#if(checar is hay internet)//tabulador a lo que sigue
-    try:
+		try:
 		fecha = time.strftime('%Y-%m-%d %H:%M:%S')
 		print "Leyendo Temperatura y humedad"
 	        [temp,humidity] = grovepi.dht(sensorth,0)
