@@ -102,7 +102,6 @@ while True:
 		millis = millis2-millis
 		millis = 2000-millis
 		time.sleep( millis )
-
-    except IOError:
+	except IOError:
         print "Error"
 
