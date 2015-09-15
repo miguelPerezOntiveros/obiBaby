@@ -88,7 +88,10 @@ while True:
 	#Acá se realizaría la configuración...
 		print "Estoy conectado via Ethernet, y soy bien chido. Aca me configuro, ¡Ese!"
 		#hacer query, nadmás asignar varibales por ahora
-		os.system("sudo wifi add "+ (var scheme = time.time())+" VARIABLEDEQUERY");
+		scheme=time.time();
+		ssid="rtz"
+
+		os.system("sudo wifi add "+ scheme +" "+ssid);
 		os.system("sudo wifi connect "+ scheme );
 		#esperar a que de verdad se haya conectado, y después seguir
 		break
