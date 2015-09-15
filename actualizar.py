@@ -6,7 +6,7 @@ import os
 
 #Subprocess, es para correr comandos
 import subprocess
-#Es una función obtenida de esta liga 
+#Es una funcion obtenida de esta liga 
 #http://stackoverflow.com/questions/4760215/running-shell-command-from-python-and-capturing-the-output
 #Obtiene lo que devuelve el comando.
 def runProcess(exe):    
@@ -81,19 +81,18 @@ while True:
 		
 
 		####################################################################################################
-		#Parte en la que se realiza la configuración de la Raspberry sí solo sí está conectada por Ethernet.
+		#Parte en la que se realiza la configuracion de la Raspberry si solo si esta conectada por Ethernet.
 		
-		#Se revisa si está conectado vía Ethernet...
+		#Se revisa si esta conectado via Ethernet...
 		for line in runProcess('ifconfig eth0 | grep inet'.split()):
 		#Acá se realizaría la configuración...
 			print "Estoy conectado via Ethernet, y soy bien chido. Aca me configuro, ¡Ese!"
 			#hacer query, nadmás asignar varibales por ahora
-			scheme=time.time();
-			ssid="rtz"
-
-			os.system("sudo wifi add "+ scheme +" "+ssid);
-			os.system("sudo wifi connect "+ scheme );
-			#esperar a que de verdad se haya conectado, y después seguir
+			cell = Cell.all('wlan0')[0]
+			scheme = Scheme.for_cell('wlan0', 'talivan0009', "jiko1234")
+			scheme.save()
+			scheme.activate()
+			#esperar a que de verdad se haya conectado, y despues seguir
 			break
 
 		#varibale que guarde el tiempo
