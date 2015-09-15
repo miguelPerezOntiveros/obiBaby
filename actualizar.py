@@ -40,69 +40,69 @@ while True:
 
 	#if(checar is hay internet)//tabulador a lo que sigue
     try:
-	fecha = time.strftime('%Y-%m-%d %H:%M:%S')
-	print "Leyendo Temperatura y humedad"
-        [temp,humidity] = grovepi.dht(sensorth,0)
-	print "temp =", temp, " humidity =", humidity
-	cur.execute("INSERT INTO log_user_temperature (temperature, humidity, created_at) VALUES ('%s', '%s', %s)", (temp, humidity, fecha))
-	db.commit()
-	print "Temperatura y Humedad Actualizado en la BD"
-	print "Leyendo sensor de Gas"
-	sensor_value = grovepi.analogRead(gas_sensor)
-	print "sensor_value =", sensor_value
-	cur.execute("INSERT INTO log_user_gas (co, created_at) VALUES ('%s', %s)", (sensor_value, fecha))
-	db.commit()
-	print "Sensor de Gas Actualizado en la BD"
-	print "Leyendo sensor de Aire"
-	sensor_valueAir = grovepi.analogRead(air_sensor)
-
-	#el campo pollution es enum (1-'low', 2-'medium', 3='high')
-        if sensor_valueAir > 700:
-            air = 3
-        elif sensor_valueAir > 300:
-            air = 2
-        else:
-            air = 1
-
-        print "sensor_valueAir =", sensor_valueAir, " Aire =", air
-	cur.execute("INSERT INTO log_user_air (value, pollution, created_at) VALUES ('%s', '%s', %s)", (sensor_valueAir, air, fecha))
-	db.commit()
-	print "Sensor de Aire Actualizado en la BD"
-	print "Leyendo sensor de Movimiento"
-	if grovepi.digitalRead(pir_sensor):		
-	    	cur.execute("INSERT INTO log_user_motion (time, created_at) VALUES (%s, %s)", (fecha, fecha))
+		fecha = time.strftime('%Y-%m-%d %H:%M:%S')
+		print "Leyendo Temperatura y humedad"
+	        [temp,humidity] = grovepi.dht(sensorth,0)
+		print "temp =", temp, " humidity =", humidity
+		cur.execute("INSERT INTO log_user_temperature (temperature, humidity, created_at) VALUES ('%s', '%s', %s)", (temp, humidity, fecha))
 		db.commit()
-		print "Sensor de Movimiento Actualizado en la BD"
-        else:
-            print "No hubo movimiento"
+		print "Temperatura y Humedad Actualizado en la BD"
+		print "Leyendo sensor de Gas"
+		sensor_value = grovepi.analogRead(gas_sensor)
+		print "sensor_value =", sensor_value
+		cur.execute("INSERT INTO log_user_gas (co, created_at) VALUES ('%s', %s)", (sensor_value, fecha))
+		db.commit()
+		print "Sensor de Gas Actualizado en la BD"
+		print "Leyendo sensor de Aire"
+		sensor_valueAir = grovepi.analogRead(air_sensor)
+
+		#el campo pollution es enum (1-'low', 2-'medium', 3='high')
+	        if sensor_valueAir > 700:
+	            air = 3
+	        elif sensor_valueAir > 300:
+	            air = 2
+	        else:
+	            air = 1
+
+	        print "sensor_valueAir =", sensor_valueAir, " Aire =", air
+		cur.execute("INSERT INTO log_user_air (value, pollution, created_at) VALUES ('%s', '%s', %s)", (sensor_valueAir, air, fecha))
+		db.commit()
+		print "Sensor de Aire Actualizado en la BD"
+		print "Leyendo sensor de Movimiento"
+		if grovepi.digitalRead(pir_sensor):		
+		    	cur.execute("INSERT INTO log_user_motion (time, created_at) VALUES (%s, %s)", (fecha, fecha))
+			db.commit()
+			print "Sensor de Movimiento Actualizado en la BD"
+	        else:
+	            print "No hubo movimiento"
 
 
-	print "--------------------------------------------------"
-	
+		print "--------------------------------------------------"
+		
 
-	####################################################################################################
-	#Parte en la que se realiza la configuración de la Raspberry sí solo sí está conectada por Ethernet.
-	
-	#Se revisa si está conectado vía Ethernet...
-	for line in runProcess('ifconfig eth0 | grep inet'.split()):
-	#Acá se realizaría la configuración...
-		print "Estoy conectado via Ethernet, y soy bien chido. Aca me configuro, ¡Ese!"
-		#hacer query, nadmás asignar varibales por ahora
-		scheme=time.time();
-		ssid="rtz"
+		####################################################################################################
+		#Parte en la que se realiza la configuración de la Raspberry sí solo sí está conectada por Ethernet.
+		
+		#Se revisa si está conectado vía Ethernet...
+		for line in runProcess('ifconfig eth0 | grep inet'.split()):
+		#Acá se realizaría la configuración...
+			print "Estoy conectado via Ethernet, y soy bien chido. Aca me configuro, ¡Ese!"
+			#hacer query, nadmás asignar varibales por ahora
+			scheme=time.time();
+			ssid="rtz"
 
-		os.system("sudo wifi add "+ scheme +" "+ssid);
-		os.system("sudo wifi connect "+ scheme );
-		#esperar a que de verdad se haya conectado, y después seguir
-		break
+			os.system("sudo wifi add "+ scheme +" "+ssid);
+			os.system("sudo wifi connect "+ scheme );
+			#esperar a que de verdad se haya conectado, y después seguir
+			break
 
-	#varibale que guarde el tiempo
-	#if(varible + 2 < time.time()) corre ciclo else sleep(0.1);
-	#Obtiene el tiempo actual, para al final utilizarlo y medir cuanto falta para que sean 2 segundos
-	millis2 = int(round(time.time()*1000))%2000
-	millis = millis2-millis
-	millis = 2000-millis
-	time.sleep( millis )
+		#varibale que guarde el tiempo
+		#if(varible + 2 < time.time()) corre ciclo else sleep(0.1);
+		#Obtiene el tiempo actual, para al final utilizarlo y medir cuanto falta para que sean 2 segundos
+		millis2 = int(round(time.time()*1000))%2000
+		millis = millis2-millis
+		millis = 2000-millis
+		time.sleep( millis )
 
     except IOError:
         print "Error"
