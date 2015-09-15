@@ -85,6 +85,7 @@ while True:
 		#hacer query, nadmás asignar varibales por ahora
 		os.system("sudo wifi add "+ (var scheme = time.time())+" VARIABLEDEQUERY");
 		os.system("sudo wifi connect "+ scheme );
+		#esperar a que de verdad se haya conectado, y después seguir
 		break
 
 	#varibale que guarde el tiempo
