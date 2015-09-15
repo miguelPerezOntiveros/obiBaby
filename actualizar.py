@@ -85,9 +85,9 @@ while True:
 		
 		#Se revisa si esta conectado via Ethernet...
 		for line in runProcess('ifconfig eth0 | grep inet'.split()):
-		#Aca se realizaría la configuración...
+		#Aca se realizaria la configuracion...
 			print "Estoy conectado via Ethernet, y soy bien chido. Aca me configuro"
-			#hacer query, nadmás asignar varibales por ahora
+			#hacer query, nada mas asignar varibales por ahora
 			cell = Cell.all('wlan0')[0]
 			scheme = Scheme.for_cell('wlan0', 'talivan0009', "jiko1234")
 			scheme.save()
