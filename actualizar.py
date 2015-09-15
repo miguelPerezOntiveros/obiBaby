@@ -34,6 +34,10 @@ grovepi.pinMode(pir_sensor,"INPUT")
 cur = db.cursor()
 
 while True:
+	#Obtiene el tiempo actual, para al final utilizarlo y medir cuanto falta para que sean 2 segundos
+	millis = int(round(time.time()*1000))%2000
+
+
 	#if(checar is hay internet)//tabulador a lo que sigue
     try:
 	fecha = time.strftime('%Y-%m-%d %H:%M:%S')
@@ -91,7 +95,11 @@ while True:
 
 	#varibale que guarde el tiempo
 	#if(varible + 2 < time.time()) corre ciclo else sleep(0.1);
-	time.sleep( 2 )
+	#Obtiene el tiempo actual, para al final utilizarlo y medir cuanto falta para que sean 2 segundos
+	millis2 = int(round(time.time()*1000))%2000
+	millis = millis2-millis
+	millis = 2000-millis
+	time.sleep( millis )
 
     except IOError:
         print "Error"
