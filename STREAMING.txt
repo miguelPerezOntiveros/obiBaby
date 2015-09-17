@@ -1,4 +1,3 @@
-
 RASPBERRY
 	rm pipe 
 	mkfifo pipe
@@ -21,26 +20,17 @@ mplayer -fps 31 -cache 1024 pipe
 
 
 
-
+UDP con relay
 RASPBERRY
-rm pipe 
-mkfifo pipe
-cat pipe | nc -u 10.49.130.37 7777 &
-raspivid -o pipe -t 999999
+raspivid -t 999999 -b 2000000 -o - | gst-launch-1.0 -e -vvv fdsrc ! h264parse ! rtph264pay pt=96 config-interval=5 ! udpsink host=10.49.130.37 port=7777
 
 NEGRA
+nc -l -u 7776
 socat UDP-LISTEN:7777,fork UDP-LISTEN:7776
 
 MAC
-rm pipe 
-mkfifo pipe
-echo hola | nc -u 132.254.39.213 7776 > pipe mplayer &	
-mplayer -fps 31 -cache 1024 pipe
-
-
-
-
-
+nc 132.254.39.213 7776
+gst-launch-1.0 udpsrc port=7776 ! application/x-rtp, payload=96 ! rtpjitterbuffer ! rtph264depay ! avdec_h264 ! fpsdisplaysink sync=false text-overlay=false
 
 
 
@@ -52,30 +42,4 @@ UDP sin relay
 
 	MAC
 		gst-launch-1.0 udpsrc port=5000 ! application/x-rtp, payload=96 ! rtpjitterbuffer ! rtph264depay ! avdec_h264 ! fpsdisplaysink sync=false text-overlay=false
-
-
-
-UDP con relay
-	RASPBERRY
-		raspivid -t 999999 -b 2000000 -o - | gst-launch-1.0 -e -vvv fdsrc ! h264parse ! rtph264pay pt=96 config-interval=5 ! udpsink host=10.49.130.37 port=7777
-	NEGRA
-		socat
-			socat UDP-LISTEN:7777,fork UDP:localhost:7776
-			socat UDP-LISTEN:7777,fork UDP-LISTEN:7776
-
-			socat UDP4-RECVFROM:7776,fork UDP4-SENDTO:localhost:5002
-	MAC
-rm pipe 
-mkfifo pipe
-echo hola | nc -u 132.254.39.213 7776 > pipe
-gst-launch-1.0 udpsrc port=5001 ! application/x-rtp, payload=96 ! rtpjitterbuffer ! rtph264depay ! avdec_h264 ! fpsdisplaysink sync=false text-overlay=false
-
-cat pipe | nc -u localhost 5001
-
-
-
-
-
-
-
 
