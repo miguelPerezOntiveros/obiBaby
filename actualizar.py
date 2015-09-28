@@ -80,21 +80,6 @@ while True:
 		print "--------------------------------------------------"
 		
 
-		####################################################################################################
-		#Parte en la que se realiza la configuracion de la Raspberry si solo si esta conectada por Ethernet.
-		
-		#Se revisa si esta conectado via Ethernet...
-		for line in runProcess('ifconfig eth0 | grep inet'.split()):
-		#Aca se realizaria la configuracion...
-			print "Estoy conectado via Ethernet, y soy bien chido. Aca me configuro"
-			#hacer query, nada mas asignar varibales por ahora
-			cell = Cell.all('wlan0')[0]
-			scheme = Scheme.for_cell('wlan0', 'talivan0009', "jiko1234")
-			scheme.save()
-			scheme.activate()
-			#esperar a que de verdad se haya conectado, y despues seguir
-			break
-
 		#varibale que guarde el tiempo
 		#if(varible + 2 < time.time()) corre ciclo else sleep(0.1);
 		#Obtiene el tiempo actual, para al final utilizarlo y medir cuanto falta para que sean 2 segundos
