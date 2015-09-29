@@ -6,13 +6,13 @@ import os
 
 #Subprocess, es para correr comandos
 import subprocess
-#Es una funcion obtenida de esta liga 
+#Es una funcion obtenida de esta liga
 #http://stackoverflow.com/questions/4760215/running-shell-command-from-python-and-capturing-the-output
 #Obtiene lo que devuelve el comando.
-def runProcess(exe):    
+def runProcess(exe):
     p = subprocess.Popen(exe, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     while(True):
-      retcode = p.poll() 
+      retcode = p.poll()
       line = p.stdout.readline()
       yield line
       if(retcode is not None):
@@ -44,13 +44,13 @@ while True:
 		print "Leyendo Temperatura y humedad"
 	        [temp,humidity] = grovepi.dht(sensorth,0)
 		print "temp =", temp, " humidity =", humidity
-		cur.execute("INSERT INTO log_user_temperature (temperature, humidity, created_at) VALUES ('%s', '%s', %s)", (temp, humidity, fecha))
+		cur.execute("INSERT INTO log_user_temperature (temperature, humidity) VALUES ('%s', '%s')", (temp, humidity))
 		db.commit()
 		print "Temperatura y Humedad Actualizado en la BD"
 		print "Leyendo sensor de Gas"
 		sensor_value = grovepi.analogRead(gas_sensor)
 		print "sensor_value =", sensor_value
-		cur.execute("INSERT INTO log_user_gas (co, created_at) VALUES ('%s', %s)", (sensor_value, fecha))
+		cur.execute("INSERT INTO log_user_gas (co) VALUES ('%s')", (sensor_value))
 		db.commit()
 		print "Sensor de Gas Actualizado en la BD"
 		print "Leyendo sensor de Aire"
@@ -65,12 +65,12 @@ while True:
 	            air = 1
 
 	        print "sensor_valueAir =", sensor_valueAir, " Aire =", air
-		cur.execute("INSERT INTO log_user_air (value, pollution, created_at) VALUES ('%s', '%s', %s)", (sensor_valueAir, air, fecha))
+		cur.execute("INSERT INTO log_user_air (value, pollution) VALUES ('%s', '%s')", (sensor_valueAir, air))
 		db.commit()
 		print "Sensor de Aire Actualizado en la BD"
 		print "Leyendo sensor de Movimiento"
-		if grovepi.digitalRead(pir_sensor):		
-		    	cur.execute("INSERT INTO log_user_motion (time, created_at) VALUES (%s, %s)", (fecha, fecha))
+		if grovepi.digitalRead(pir_sensor):
+		    	cur.execute("INSERT INTO log_user_motion (time) VALUES (%s)", (fecha))
 			db.commit()
 			print "Sensor de Movimiento Actualizado en la BD"
 	        else:
@@ -78,11 +78,11 @@ while True:
 
 
 		print "--------------------------------------------------"
-		
+
 
 		####################################################################################################
 		#Parte en la que se realiza la configuracion de la Raspberry si solo si esta conectada por Ethernet.
-		
+
 		#Se revisa si esta conectado via Ethernet...
 		for line in runProcess('ifconfig eth0 | grep inet'.split()):
 		#Aca se realizaria la configuracion...
@@ -104,4 +104,3 @@ while True:
 		time.sleep( millis )
 	except IOError:
 		print "Error"
-
