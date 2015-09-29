@@ -4,6 +4,7 @@ import MySQLdb
 import time
 import os
 
+
 #Subprocess, es para correr comandos
 import subprocess
 #Es una funcion obtenida de esta liga
