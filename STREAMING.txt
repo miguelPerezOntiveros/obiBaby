@@ -29,7 +29,7 @@ nc -l -u 7776
 socat UDP-LISTEN:7777,fork UDP-LISTEN:7776
 
 MAC
-nc 132.254.39.213 7776
+nc 10.49.130.37 7776
 gst-launch-1.0 udpsrc port=7776 ! application/x-rtp, payload=96 ! rtpjitterbuffer ! rtph264depay ! avdec_h264 ! fpsdisplaysink sync=false text-overlay=false
 
 
@@ -43,3 +43,11 @@ UDP sin relay
 	MAC
 		gst-launch-1.0 udpsrc port=5000 ! application/x-rtp, payload=96 ! rtpjitterbuffer ! rtph264depay ! avdec_h264 ! fpsdisplaysink sync=false text-overlay=false
 
+
+
+
+
+
+CON SERVER
+
+raspivid -t 0 -w 800 -h 600 -fps 25 -g 5 -b 4000000 -vf -n -o - | gst-launch -v fdsrc ! h264parse ! gdppay ! tcpserversink host=10.49.130.37 port=5000
